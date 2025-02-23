@@ -1,0 +1,24 @@
+<tr id="contact-{{ contact.id }}">
+    <td>{{ contact.id }}</td>
+    <td>{{ contact.name }}</td>
+    <td>{{ contact.address }}</td>
+    <td>{{ contact.phoneNumber }}</td>
+    <td>
+        <button class="btn btn-danger"
+            hx-delete="{% url 'delete_contact' contact.id %}" 
+            hx-target="#contact-{{ contact.id }}" 
+            hx-swap="outerHTML swap:1s" 
+            hx-on::after-request="htmx.trigger('contactDeleted')">
+            Delete
+        </button>
+        <button
+            hx-get="{% url 'create_contact_modal' contact.id %}" 
+            hx-target="#create-contact-modal" 
+            hx-trigger="click"
+            data-bs-toggle="modal"
+            data-bs-target="#create-contact-modal"
+            class="btn btn-primary">
+            Edit
+        </button>
+    </td>
+</tr>

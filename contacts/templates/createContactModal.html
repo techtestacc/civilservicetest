@@ -1,0 +1,48 @@
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-title">{{ action }}</h5>
+    </div>
+    <div class="modal-body">
+    {% if contact %}
+      <form id="contact-form" hx-put="{{ url }}" hx-target="#contact-{{ contact.id }}" hx-swap="outerHTML" hx-on::after-request="closeModal()">
+    {% else %}
+      <form id="contact-form" hx-post="{{ url }}" hx-target="#contact-list" hx-swap="beforeend" hx-on::after-request="closeModal()">
+    {% endif %}
+        <!-- Hidden field for ID (only for editing) -->
+        {% if contact %}
+          <input type="hidden" id="contact-id" name="id" value="{{ contact.id }}">
+        {% endif %}
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" class="form-control" name="name" value="{{ contact.name | default:"" }}" required/>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" class="form-control" name="address" value="{{ contact.address | default:"" }}" required/>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" class="form-control" name="phone" value="{{ contact.phoneNumber | default:"" }}" required/>
+        </div>
+        <div style="margin: 1rem 0rem;">
+          <button type="submit" class="btn btn-primary">{{ submit_button_text }}</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    function closeModal() {
+        let modalElement = document.getElementById('create-contact-modal');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
+    }
+</script>

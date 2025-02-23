@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="container">
+    <h1>Contacts</h1>
+    <button
+        hx-get="{% url 'create_contact_modal' %}" 
+        hx-target="#create-contact-modal" 
+        hx-trigger="click"
+        data-bs-toggle="modal"
+        data-bs-target="#create-contact-modal"
+        class="btn btn-primary">
+        Add
+    </button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="contact-list" 
+            hx-get="{% url 'get_contacts' %}" 
+            hx-trigger="load"
+            hx-target="closest tr"
+            hx-swap="innerHTML">
+            {% include "partials/contactListPartial.html" %}
+        </tbody>
+    </table>
+
+    <div id="create-contact-modal"
+        class="modal modal-blur fade"
+        style="display: none"
+        aria-hidden="false"
+        tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>    
+</div>
+{% endblock %}
